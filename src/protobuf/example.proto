@@ -1,0 +1,116 @@
+syntax = "proto3";
+option cc_enable_arenas = true;
+
+package metable.rpc;
+
+service Metable {
+  rpc CheckVersion(CheckVersionRequest) returns (CheckVersionReply) {}
+
+  rpc CreateDataBase(CreateDataBaseRequest) returns (CreateDataBaseReply) {}
+
+  rpc CreateTable(CreateTableRequest) returns (CreateTableReply) {}
+
+  rpc TableExist(TableExistRequest) returns (TableExistReply) {}
+
+  rpc DropTable(DropTableRequest) returns (DropTableReply) {}
+}
+
+/// Define the information required for CheckVersion !!!
+
+enum CheckVersionStatus {
+  OK = 0;
+  DISMATCHED = 1;
+}
+
+message CheckVersionRequest { string version_str = 1; }
+
+message CheckVersionReply { CheckVersionStatus status = 1; }
+
+/// Define the information required for CreateDataBase !!!
+
+enum CreateDataBaseStatus {
+    CREATE_DATA_BASE_SUCCESS = 0;
+    CREATE_DATA_BASE_FAIL = 1;
+}
+
+message CreateDataBaseRequest {
+    string db_name = 1;
+}
+
+message CreateDataBaseReply {
+    CreateDataBaseStatus status = 1;
+    string msg = 2;
+}
+
+/// Define the information required for CreateTable !!!
+
+enum CreateTableStatus {
+    CREATE_TABLE_SUCCESS = 0;
+    CREATE_TABLE_FAIL = 1;
+}
+
+enum FieldType {
+    // value type
+    INT = 0;
+    BIGINT = 1;
+    FLOAT = 2;
+    DOUBLE = 3;
+    // string type
+    STRING = 4;
+    // datatime type
+    TIMESTAMP = 5;
+    DATE = 6;
+    TIME = 7;
+    DATATIME = 8;
+}
+
+// Each field type in the table
+message Field {
+    string name = 1;
+    FieldType type = 2;
+}
+
+message CreateTableRequest {
+    string db_name = 1;
+    string table_name = 2;
+    repeated Field fields = 3;
+}
+
+message CreateTableReply {
+    CreateTableStatus status = 1;
+    string msg = 2;
+}
+
+/// Define the information required for TableExist !!!
+
+enum TableExistStatus {
+    TABLE_EXIST = 0;
+    TABLE_NOT_EXIST = 1;
+}
+
+message TableExistRequest {
+    string db_name = 1;
+    string table_name = 2;
+}
+
+message TableExistReply {
+    TableExistStatus status = 1;
+    string msg = 2;
+}
+
+/// Define the information required for DropTable !!!
+
+enum DropTableStatus {
+    DROP_TABLE_SUCCESS = 0;
+    DROP_TABLE_FAIL = 1;
+}
+
+message DropTableRequest {
+    string db_name = 1;
+    string table_name = 2;
+}
+
+message DropTableReply {
+    DropTableStatus status = 1;
+    string msg = 2;
+}

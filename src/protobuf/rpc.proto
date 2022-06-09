@@ -1,0 +1,17 @@
+syntax = "proto3";
+option cc_enable_arenas = true;
+
+service MultiplayerOnline{
+    rpc  Hello(HelloRequest) returns (HelloReply) {}
+}
+
+/// Define the information required for Hello !!!
+
+enum HelloStatus {
+    HELLO_OK = 0;
+    HELLO_DISMATCHED = 1;
+}
+
+message HelloRequest { string name = 1; }
+
+message HelloReply { string message = 1; }
